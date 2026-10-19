@@ -109,7 +109,7 @@ The application is deployed using GitHub Pages. The production build is generate
 
 Visit the live application:
 
-🔗 https://manelkhedri.github.io/e-commerce-app/
+🔗 https://manelkhedri.github.io/threads-crochet/
 
 
 
