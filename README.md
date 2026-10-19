@@ -84,7 +84,7 @@ Make sure you have installed:
 
 1. Clone the Repository
 
-git clone https://github.com/manelkhedri/e-commerce-app.git
+git clone https://github.com/manelkhedri/threads-crochet.git
 
 2. Navigate to the Project Directory
 
