@@ -1,5 +1,7 @@
+
 import { useState } from 'react';
-import products from '../data/products';
+import { useSelector } from 'react-redux';
+
 import ProductCard from './ProductCard';
 import SearchBar from './SearchBar';
 
@@ -7,12 +9,15 @@ function ProductList() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
 
-  // استخراج الأقسام المختلفة من المنتجات
+  // Get products from Redux store
+  const products = useSelector((state) => state.products.items);
+
+  // Extract categories from products
   const categories = [
     ...new Set(products.map((product) => product.category)),
   ];
 
-  // البحث بالاسم والتصفية حسب القسم
+  // Search and filter products
   const filteredProducts = products.filter((product) => {
     const matchesSearch = product.name
       .toLowerCase()
@@ -56,4 +61,5 @@ function ProductList() {
 }
 
 export default ProductList;
+
 
