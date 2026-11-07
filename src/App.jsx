@@ -1,5 +1,6 @@
 
-import { useEffect } from 'react';
+
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchProducts } from './features/productsSlice';
@@ -16,10 +17,40 @@ function App() {
     (state) => state.products
   );
 
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    Boolean(sessionStorage.getItem('token'))
+  );
+
+  // Receive Google login token
+  useEffect(() => {
+    const params = new URLSearchParams(
+      window.location.hash.slice(1)
+    );
+
+    const token = params.get('token');
+
+    if (token) {
+      sessionStorage.setItem('token', token);
+      setIsLoggedIn(true);
+
+      // Remove token from the browser address
+      window.history.replaceState(
+        null,
+        '',
+        window.location.pathname + window.location.search
+      );
+    }
+  }, []);
+
   // Fetch products when the website opens
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
+
+  const handleGoogleLogin = () => {
+    window.location.href =
+      'http://localhost:3000/api/auth/google';
+  };
 
   return (
     <div className="app">
@@ -33,6 +64,27 @@ function App() {
         <div className="header-text">
           <h1>GOLDEN HANDS</h1>
           <p>Handemade with love, crafted stitch by stitch.</p>
+        </div>
+
+        <div className="auth-section">
+          {isLoggedIn ? (
+  <div>
+    <p>Logged in with Google ✓</p>
+
+    <button
+      onClick={() => {
+        sessionStorage.removeItem('token');
+        setIsLoggedIn(false);
+      }}
+    >
+      Logout
+    </button>
+  </div>
+) : (
+  <button onClick={handleGoogleLogin}>
+    Sign in with Google
+  </button>
+)}
         </div>
       </header>
 
@@ -56,5 +108,6 @@ function App() {
 }
 
 export default App;
+
 
 
